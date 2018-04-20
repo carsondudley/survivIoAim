@@ -1,250 +1,74 @@
 (function() {
 
+	var TICKER_INTERVAL = 10; // msec
+	var lastTick = 0;
+
 	var bullets = {
 		bullet_mp5: {
-			damage: 11,
-			obstacleDamage: 1,
-			falloff: .8,
-			distance: 100,
 			speed: 85,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16704198,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_ak47: {
-			damage: 13.5,
-			obstacleDamage: 1,
-			falloff: .9,
-			distance: 200,
 			speed: 100,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_scar: {
-			damage: 15,
-			obstacleDamage: 1,
-			falloff: .85,
-			distance: 175,
 			speed: 108,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_mosin: {
-			damage: 64,
-			obstacleDamage: 1.5,
-			falloff: .95,
-			distance: 500,
 			speed: 178,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .2,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_m39: {
-			damage: 24.5,
-			obstacleDamage: 1,
-			falloff: .9,
-			distance: 400,
 			speed: 125,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
-		bullet_shotgun: {
-			damage: 12,
-			obstacleDamage: 1,
-			falloff: .3,
+		bullet_m870: {
 			speed: 66,
-			distance: 29,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16702684,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
+		},
+		bullet_mp220: {
+			speed: 66,
 		},
 		bullet_m9: {
-			damage: 12,
-			obstacleDamage: 1,
-			falloff: .7,
 			speed: 85,
-			distance: 100,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16704198,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_ot38: {
-			damage: 26,
-			obstacleDamage: 1,
-			falloff: .75,
 			speed: 112,
-			distance: 125,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .09,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_mac10: {
-			damage: 9.25,
-			obstacleDamage: 1,
-			falloff: .6,
-			distance: 50,
 			speed: 75,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16704198,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_ump9: {
-			damage: 15,
-			obstacleDamage: 1,
-			falloff: .75,
-			distance: 100,
 			speed: 100,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16704198,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_dp28: {
-			damage: 14,
-			obstacleDamage: 1.5,
-			falloff: .9,
-			distance: 225,
 			speed: 110,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 12965630,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_glock: {
-			damage: 9,
-			obstacleDamage: 1,
-			falloff: .5,
 			speed: 70,
-			distance: 44,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 16704198,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_famas: {
-			damage: 17,
-			obstacleDamage: 1,
-			falloff: .8,
-			distance: 150,
 			speed: 110,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 11141010,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_hk416: {
-			damage: 11,
-			obstacleDamage: 1,
-			falloff: .85,
-			distance: 175,
 			speed: 105,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 11141010,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_mk12: {
-			damage: 19.5,
-			obstacleDamage: 1,
-			falloff: .9,
-			distance: 400,
 			speed: 132,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 11141010,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
 		bullet_m249: {
-			damage: 14,
-			obstacleDamage: 1.75,
-			falloff: .9,
-			distance: 220,
 			speed: 125,
-			variance: 0,
-			shrapnel: !1,
-			tracerColor: 11141010,
-			tracerWidth: .1,
-			tracerLength: .8,
-			tracerAlpha: 1
 		},
-		shrapnel_barrel: {
-			damage: 20,
-			obstacleDamage: 1,
-			falloff: 1,
-			speed: 20,
-			distance: 8,
-			variance: 1.5,
-			shrapnel: !0,
-			tracerColor: 3355443,
-			tracerWidth: .125,
-			tracerLength: .5,
-			tracerAlpha: 1
-		},
-		shrapnel_frag: {
-			damage: 20,
-			obstacleDamage: 1,
-			falloff: 1,
-			speed: 20,
-			distance: 8,
-			variance: 1.5,
-			shrapnel: !0,
-			tracerColor: 3355443,
-			tracerWidth: .125,
-			tracerLength: .5,
-			tracerAlpha: 1
-		}
 	}
 
 	var calculateRadianAngle = function(cx, cy, ex, ey) {
 		var dy = ey - cy;
 		var dx = ex - cx;
-	  var theta = Math.atan2(dy, dx); // range (-PI, PI]
+		var theta = Math.atan2(dy, dx); // range (-PI, PI]
 	  // theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
 	  // if (theta < 0) theta = 360 + theta; // range [0, 360)
 
 	  return theta;
+	}
+
+	var calculateDistance = function(sX, sY, eX, eY) {
+		return Math.sqrt(Math.pow(Math.abs(sX - eX), 2) + Math.pow(Math.abs(sY - eY), 2));
 	}
 
 	var getSelfPos = function() {
@@ -283,25 +107,78 @@
 	}
 
 	// More shaken for more values
-	var forecastCoeff = 1;
-	var bulletCoeff = 1;
-	var calculateTargetMousePosition = function(radianAngle, prevRadianAngle, distance) {
+	// var forecastCoeff = 1;
+	// var bulletCoeff = 1;
+	// var calculateTargetMousePosition = function(radianAngle, prevRadianAngle, distance) {
+	// var halfScreenWidth = game.camera.screenWidth/2;
+	// var halfScreenHeight = game.camera.screenHeight/2;
+
+	// var minScreenCircleRadius = halfScreenHeight > halfScreenWidth ? halfScreenWidth : halfScreenHeight;
+	// minScreenCircleRadius = Math.floor(minScreenCircleRadius - 1);
+
+	// if(bullets["bullet_" + game.activePlayer.weapType]) {
+	// 	bulletCoeff = 90/bullets["bullet_" + game.activePlayer.weapType].speed;
+	// } else {
+	// 	bulletCoeff = 1;
+	// }
+
+	// 	return {
+	// 		x: halfScreenWidth + minScreenCircleRadius * Math.cos(radianAngle + bulletCoeff * ( forecastCoeff/100000000 * Math.pow(distance, 5) + forecastCoeff/1000000 * Math.pow(distance, 4) + forecastCoeff/10000 * Math.pow(distance, 3) + forecastCoeff/100 * Math.pow(distance, 2) + forecastCoeff * distance )/4 * (radianAngle - prevRadianAngle)),
+	// 		y: halfScreenHeight - minScreenCircleRadius * Math.sin(radianAngle + bulletCoeff * ( forecastCoeff/100000000 * Math.pow(distance, 5) + forecastCoeff/1000000 * Math.pow(distance, 4) + forecastCoeff/10000 * Math.pow(distance, 3) + forecastCoeff/100 * Math.pow(distance, 2) + forecastCoeff * distance )/4 * (radianAngle - prevRadianAngle)),
+	// 	}
+	// }
+
+	var calculateTargetMousePosition = function(enemyPos, prevEnemyPos, distance) {
+		var bulletSpeed = 0;
+		var approachTime = Infinity;
+
+		// Check if you not have a bullets
+		if(bullets["bullet_" + game.activePlayer.weapType]) {
+			bulletSpeed = bullets["bullet_" + game.activePlayer.weapType].speed;
+			approachTime = distance/bulletSpeed;
+		} else {
+			return null;
+		}
+
+		var selfPos = getSelfPos();
+
+		var enemySpeed = {
+			x: (enemyPos.x - prevEnemyPos.x) / ((Date.now() - lastTick) / 1000),
+			y: (enemyPos.y - prevEnemyPos.y) / ((Date.now() - lastTick) / 1000),
+		}
+
+		var predictionEnemyPos = {
+			x: enemyPos.x + enemySpeed.x * approachTime,
+			y: enemyPos.y + enemySpeed.y * approachTime,
+		}
+
+		var predictionDistance = calculateDistance(selfPos.x, selfPos.y, predictionEnemyPos.x, predictionEnemyPos.y);
+
+		(function r(n) {
+			approachTime = predictionDistance/bulletSpeed;
+			predictionEnemyPos.x = enemyPos.x + enemySpeed.x * approachTime;
+			predictionEnemyPos.y = enemyPos.y + enemySpeed.y * approachTime,
+			predictionDistance = calculateDistance(selfPos.x, selfPos.y, predictionEnemyPos.x, predictionEnemyPos.y);
+
+			if(n == 0) {
+				return;
+			} else {
+				r(n-1);
+			}
+		})(20);
+
 		var halfScreenWidth = game.camera.screenWidth/2;
 		var halfScreenHeight = game.camera.screenHeight/2;
 
 		var minScreenCircleRadius = halfScreenHeight > halfScreenWidth ? halfScreenWidth : halfScreenHeight;
-		minScreenCircleRadius = Math.floor(minScreenCircleRadius - 1);
+		minScreenCircleRadius = Math.floor(minScreenCircleRadius - 1);		
 
-		if(bullets["bullet_" + game.activePlayer.weapType]) {
-			bulletCoeff = 90/bullets["bullet_" + game.activePlayer.weapType].speed;
-		} else {
-			bulletCoeff = 1;
-		}
+		var predictionRadianAngle = calculateRadianAngle(selfPos.x, selfPos.y, predictionEnemyPos.x, predictionEnemyPos.y);
 
 		return {
-			x: halfScreenWidth + minScreenCircleRadius * Math.cos(radianAngle + bulletCoeff * ( forecastCoeff/100000000 * Math.pow(distance, 5) + forecastCoeff/1000000 * Math.pow(distance, 4) + forecastCoeff/10000 * Math.pow(distance, 3) + forecastCoeff/100 * Math.pow(distance, 2) + forecastCoeff * distance )/4 * (radianAngle - prevRadianAngle)),
-			y: halfScreenHeight - minScreenCircleRadius * Math.sin(radianAngle + bulletCoeff * ( forecastCoeff/100000000 * Math.pow(distance, 5) + forecastCoeff/1000000 * Math.pow(distance, 4) + forecastCoeff/10000 * Math.pow(distance, 3) + forecastCoeff/100 * Math.pow(distance, 2) + forecastCoeff * distance )/4 * (radianAngle - prevRadianAngle)),
-		}
+			x: halfScreenWidth + minScreenCircleRadius * Math.cos(predictionRadianAngle),
+			y: halfScreenHeight - minScreenCircleRadius * Math.sin(predictionRadianAngle),
+		}		
 	}
 
 	var state = {
@@ -311,6 +188,14 @@
 		prevRadianAngle: 0,
 		new: false,
 		timestamp: Date.now(),
+		enemyPos: {
+			x: 0,
+			y: 0,
+		},
+		prevEnemyPos: {
+			x: 0,
+			y: 0,
+		},
 		targetMousePosition: {
 			x: 0,
 			y: 0,
@@ -332,15 +217,21 @@
 				if(detectedEnemies[state.playerId]) {
 					var enemyPos = detectedEnemies[state.playerId].netData.pos;
 
-					var distance = Math.sqrt(Math.pow(Math.abs(selfPos.x - enemyPos.x), 2) + Math.pow(Math.abs(selfPos.y - enemyPos.y), 2));
+					var distance = calculateDistance(selfPos.x, selfPos.y, enemyPos.x, enemyPos.y);
 					var radianAngle = calculateRadianAngle(selfPos.x, selfPos.y, enemyPos.x, enemyPos.y);
 
-					state.distance = Math.sqrt(Math.pow(Math.abs(selfPos.x - enemyPos.x), 2) + Math.pow(Math.abs(selfPos.y - enemyPos.y), 2));
+					state.distance = distance;
 					state.prevRadianAngle = state.radianAngle;
 					state.radianAngle = radianAngle;
+					state.prevEnemyPos = state.enemyPos;
+					state.enemyPos = enemyPos;
 					state.new = true;
 					state.timestamp = Date.now();
-					state.targetMousePosition = calculateTargetMousePosition(state.radianAngle, state.prevRadianAngle, state.distance);
+					state.targetMousePosition = calculateTargetMousePosition(state.enemyPos, state.prevEnemyPos, state.distance);
+
+					if(state.targetMousePosition === null) {
+						state.new = false;
+					}
 
 					return;
 				}
@@ -349,7 +240,7 @@
 			for(var i = 0; i < detectedEnemiesKeys.length; i++) {
 				var enemyPos = detectedEnemies[detectedEnemiesKeys[i]].netData.pos;
 
-				var distance = Math.sqrt(Math.pow(Math.abs(selfPos.x - enemyPos.x), 2) + Math.pow(Math.abs(selfPos.y - enemyPos.y), 2));
+				var distance = calculateDistance(selfPos.x, selfPos.y, enemyPos.x, enemyPos.y);
 				var radianAngle = calculateRadianAngle(selfPos.x, selfPos.y, enemyPos.x, enemyPos.y);
 
 				enemyDistances.push(distance);
@@ -363,17 +254,30 @@
 					distance: enemyDistances[minimalDistanceEnemyIndex],
 					radianAngle: enemyRadianAngles[minimalDistanceEnemyIndex],
 					prevRadianAngle: enemyRadianAngles[minimalDistanceEnemyIndex],
+					prevEnemyPos: detectedEnemies[detectedEnemiesKeys[minimalDistanceEnemyIndex]].netData.pos,
+					enemyPos: detectedEnemies[detectedEnemiesKeys[minimalDistanceEnemyIndex]].netData.pos,
 					new: true,
 					timestamp: Date.now(),
 				}
-				state.targetMousePosition = calculateTargetMousePosition(state.radianAngle, state.prevRadianAngle, state.distance);
+
+				state.targetMousePosition = calculateTargetMousePosition(state.enemyPos, state.prevEnemyPos, state.distance);
+
+				if(state.targetMousePosition === null) {
+					state.new = false;
+				}
 			} else {
 				state.distance = enemyDistances[minimalDistanceEnemyIndex];
 				state.prevRadianAngle = state.radianAngle;
 				state.radianAngle = enemyRadianAngles[minimalDistanceEnemyIndex];
+				state.prevEnemyPos = state.enemyPos;
+				state.enemyPos = detectedEnemies[detectedEnemiesKeys[minimalDistanceEnemyIndex]].netData.pos;
 				state.new = true;
 				state.timestamp = Date.now();
-				state.targetMousePosition = calculateTargetMousePosition(state.radianAngle, state.prevRadianAngle, state.distance);
+				state.targetMousePosition = calculateTargetMousePosition(state.enemyPos, state.prevEnemyPos, state.distance);
+
+				if(state.targetMousePosition === null) {
+					state.new = false;
+				}
 			}
 		}
 	}
@@ -395,7 +299,7 @@
 			!game.activePlayer.localData.inventory["15xscope"]) {
 
 			game.activePlayer.localData.curScope = "8xscope"; //15xscope
-		game.activePlayer.localData.inventory["8xscope"] = 1;	
+			game.activePlayer.localData.inventory["8xscope"] = 1;	
 	}
 }	
 
@@ -445,8 +349,9 @@ var removeOKeyListener = function() {
 
 var timer = null;
 function ticker() {
-	timer = setTimeout(ticker, 10);
+	timer = setTimeout(ticker, TICKER_INTERVAL);
 	iterate();
+	lastTick = Date.now();
 }	
 
 var defaultBOnMouseDown = function(event) {};
